@@ -1,0 +1,13 @@
+.auth__login-button {
+  text-decoration: none;
+  color: #FFFFFF;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  cursor: pointer;
+  transition: opacity .3s linear;
+}
+
+.auth__login-button:hover {
+  opacity: .8;
+}

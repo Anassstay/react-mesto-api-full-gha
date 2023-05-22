@@ -1,0 +1,15 @@
+.auth__input {
+  min-width: 358px;
+  color: #CCCCCC;
+  font-size: 14px;
+  line-height: 17px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid #CCCCCC;
+  margin: 0;
+  padding-bottom: 13px;
+}
+
+.auth__input:first-child {
+  margin-bottom: 30px;
+}

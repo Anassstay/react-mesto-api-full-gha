@@ -1,0 +1,7 @@
+.popup__image-success {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-self: center;
+  margin: 60px auto 32px;
+}

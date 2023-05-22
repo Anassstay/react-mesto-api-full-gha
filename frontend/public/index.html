@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="author" content="Анастасия Федина">
+  <title>Места России</title>
+</head>
+
+<body class="page">
+  <div id="root"></div>
+
+  <template id="cards-template">
+    <div class="cards">
+      <button class="cards__delete-button" type="button" aria-label="Удалить"></button>
+      <img class="cards__image" alt="Фото">
+      <div class="cards__container">
+        <h2 class="cards__title"></h2>
+        <div class="cards__likes">
+          <button class="cards__like" type="button" aria-label="Поставить лайк"></button>
+          <p class="cards__like-number"></p>
+        </div>     
+      </div>
+    </div>
+  </template>
+
+</body>
+</html>
