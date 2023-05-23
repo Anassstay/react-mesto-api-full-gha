@@ -1,0 +1,11 @@
+.header__navbar {
+  display: flex;
+  align-items: center;
+  column-gap: 24px;
+}
+
+@media screen and (max-width: 900px) {
+  .header__navbar {
+    padding-right: 30px;
+  }
+}
