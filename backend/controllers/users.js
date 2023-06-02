@@ -8,7 +8,8 @@ const {
 
 const ConflictError = require('../utils/conflictError');
 
-const { JWT_SECRET } = require('../utils/config');
+const { NODE_ENV, JWT_SECRET } = process.env;
+const { PRODUCTION, DEV_SECRET } = require('../utils/config');
 
 // ищем всех юзеров
 const getUsers = (req, res, next) => {
@@ -84,7 +85,7 @@ const login = (req, res, next) => {
       // создать токен
       const token = jwt.sign(
         { _id: user._id },
-        JWT_SECRET,
+        NODE_ENV === PRODUCTION ? JWT_SECRET : DEV_SECRET,
         { expiresIn: '7d' },
       );
       res.cookie('jwt', token, {
