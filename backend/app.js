@@ -10,6 +10,8 @@ const cookieParser = require('cookie-parser');
 const validationErrors = require('celebrate').errors;
 const helmet = require('helmet'); // Заголовки безопасности можно проставлять автоматически
 const rateLimit = require('express-rate-limit'); // Защита от автоматических запросов, ограничивает кол-во запросов с одного IP-адреса в ед. времени
+const { requestLogger, errorLogger } = require('./middlewares/log');
+const cors = require('./middlewares/cors');
 
 // Подключить мидлвары
 const errors = require('./middlewares/errors');
@@ -25,18 +27,21 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useNewUrlParser: true
 });
 
+app.use(cors);
 app.use(express.json());
 app.use(cookieParser()); // подключаем парсер кук как мидлвэр
-app.use(helmet());
+app.use(helmet()); // безопасность
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // за 15 минут
   max: 100 // можно совершить максимум 100 запросов с одного IP
 });
-app.use(limiter);
+app.use(limiter); // безопасность
+app.use(requestLogger); // логгер запросов
+app.use(errorLogger); // логгер ошибок
 
 app.use('/', indexRoutes);
-app.use(validationErrors());
-app.use(errors);
+app.use(validationErrors()); // обработчик ошибок celebrate
+app.use(errors); // логгер ошибок
 
 // Слушать порт
 app.listen(PORT);
