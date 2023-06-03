@@ -49,5 +49,5 @@ class Auth {
   }
 }
 
-const auth = new Auth("https://auth.nomoreparties.co");
+const auth = new Auth("https://api.a.stay.nomoredomains.rocks");
 export default auth;
