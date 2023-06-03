@@ -1,15 +1,16 @@
+const { ValidationError, CastError } = require('mongoose').Error;
+
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 
-const {
-  CREATED
-} = require('../utils/errCode');
+const { CREATED } = require('../utils/errCode');
 
 const ConflictError = require('../utils/conflictError');
+const NotFoundError = require('../utils/notFoundError');
+const BadRequestError = require('../utils/badRequestError');
 
-const { NODE_ENV, JWT_SECRET } = process.env;
-const { PRODUCTION, DEV_SECRET } = require('../utils/config');
+const { JWT_SECRET } = require('../utils/config');
 
 // ищем всех юзеров
 const getUsers = (req, res, next) => {
@@ -25,8 +26,19 @@ const getUsers = (req, res, next) => {
 const findUserById = (req, res, dataUserId, next) => {
   User.findById(dataUserId)
     .orFail()
-    .then((user) => res.send(user))
-    .catch(next);
+    .then((user) => {
+      if (!user) {
+        throw new NotFoundError(`Объект с указанным id не найден: ${dataUserId}`);
+      }
+      res.send(user);
+    })
+    .catch((err) => {
+      if (err instanceof CastError) {
+        next(new BadRequestError(`Передан несуществующий id: ${dataUserId}`));
+      } else {
+        next(err);
+      }
+    });
 };
 
 const getUser = (req, res, next) => {
@@ -57,15 +69,41 @@ const createUser = (req, res, next) => {
         next(new ConflictError('Пользователь с данным email уже существует'));
         return;
       }
-      next(err);
+      if (err instanceof ValidationError) {
+        const errMessage = Object.values(err.errors)
+          .map((error) => error.message)
+          .join(', ');
+        next(new BadRequestError(`Переданы некорректные данные при создании пользователя: ${errMessage}`));
+      } else {
+        next(err);
+      }
     });
 };
 
 const updateUser = (req, res, dataUpdate, next) => {
   User.findByIdAndUpdate(req.user._id, dataUpdate, { new: true, runValidators: true })
     .orFail()
-    .then((user) => res.send(user))
-    .catch(next);
+
+    .then((user) => {
+      if (!user) {
+        throw new NotFoundError('Объект с указанным id не найден');
+      }
+      res.send(user);
+    })
+    .catch((err) => {
+      if (err instanceof ValidationError) {
+        const errMessage = Object.values(err.errors)
+          .map((error) => error.message)
+          .join(', ');
+        next(new BadRequestError(`Переданы некорректные данные при создании ${errMessage}`));
+        return;
+      }
+      if (err instanceof CastError) {
+        next(new BadRequestError(`Передан несуществующий id: ${req.user._id}`));
+      } else {
+        next(err);
+      }
+    });
 };
 
 const updateUserInfo = (req, res, next) => {
@@ -85,7 +123,7 @@ const login = (req, res, next) => {
       // создать токен
       const token = jwt.sign(
         { _id: user._id },
-        NODE_ENV === PRODUCTION ? JWT_SECRET : DEV_SECRET,
+        JWT_SECRET,
         { expiresIn: '7d' },
       );
       res.cookie('jwt', token, {
