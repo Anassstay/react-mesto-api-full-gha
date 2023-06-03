@@ -123,7 +123,6 @@ class Api {
 const api = new Api({
   baseUrl: 'https://api.a.stay.nomoredomains.rocks',
   headers: {
-    authorization: 'ac4d09bd-0b03-4641-a811-ed68f81bc835',
     'Content-Type': 'application/json'
   }
 });
