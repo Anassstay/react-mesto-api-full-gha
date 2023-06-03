@@ -1,0 +1,19 @@
+.cards__like {
+  background-image: url(../../../images/like.svg);
+  /*задаем прозрачный фон*/
+  background-color: transparent;
+  background-repeat: no-repeat;
+  width: 22px;
+  height: 19px;
+  padding: 0;
+  object-fit: contain;
+  align-self: center;
+  border: none;
+  /*вместо стрелки указатель*/
+  cursor: pointer;
+  transition: opacity .3s linear;
+}
+
+.cards__like:hover {
+opacity: .5;
+}
