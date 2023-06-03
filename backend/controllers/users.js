@@ -12,7 +12,7 @@ const BadRequestError = require('../utils/badRequestError');
 
 const { JWT_SECRET } = require('../utils/config');
 
-// ищем всех юзеров
+// всех юзеров
 const getUsers = (req, res, next) => {
   // Найти все записи
   User.find({})
@@ -22,33 +22,30 @@ const getUsers = (req, res, next) => {
     .catch(next);
 };
 
-// ищем по ID
-const findUserById = (req, res, dataUserId, next) => {
-  User.findById(dataUserId)
-    .orFail()
+// по id
+const getUserById = (req, res, next) => {
+  const { userId } = req.params;
+  User.findById(userId)
     .then((user) => {
       if (!user) {
-        throw new NotFoundError(`Объект с указанным id не найден: ${dataUserId}`);
+        throw new NotFoundError(`Объект с указанным id не найден: ${userId}`);
       }
       res.send(user);
     })
     .catch((err) => {
       if (err instanceof CastError) {
-        next(new BadRequestError(`Передан несуществующий id: ${dataUserId}`));
+        next(new BadRequestError(`Передан несуществующий id: ${userId}`));
       } else {
         next(err);
       }
     });
 };
 
-const getUser = (req, res, next) => {
-  const dataUserId = req.params.userId;
-  findUserById(req, res, dataUserId, next);
-};
-
 const getUserInfo = (req, res, next) => {
-  const dataUserId = req.user._id;
-  findUserById(req, res, dataUserId, next);
+  const userId = req.user._id;
+  User.findById(userId)
+    .then((user) => res.send(user))
+    .catch(next);
 };
 
 const createUser = (req, res, next) => {
@@ -141,7 +138,7 @@ const login = (req, res, next) => {
 
 module.exports = {
   getUsers,
-  getUser,
+  getUserById,
   getUserInfo,
   createUser,
   updateUserInfo,

@@ -4,7 +4,7 @@ const userRouter = require('express').Router();
 // импорт списков
 const {
   getUsers,
-  getUser,
+  getUserById,
   getUserInfo,
   updateUserInfo,
   updateUserAvatar
@@ -22,7 +22,7 @@ userRouter.get('/me', getUserInfo);
 
 userRouter.patch('/me', dataUserValidator, updateUserInfo);
 
-userRouter.get('/:userId', idUserValidator, getUser);
+userRouter.get('/:userId', idUserValidator, getUserById);
 
 userRouter.patch('/me/avatar', avatarUserValidator, updateUserAvatar);
 
