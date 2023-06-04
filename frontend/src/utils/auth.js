@@ -54,4 +54,5 @@ class Auth {
 }
 
 const auth = new Auth("https://api.a.stay.nomoredomains.rocks");
+// const auth = new Auth('http://localhost:3000');
 export default auth;

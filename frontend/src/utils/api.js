@@ -130,6 +130,7 @@ class Api {
 
 const api = new Api({
   baseUrl: 'https://api.a.stay.nomoredomains.rocks',
+  // baseUrl: 'http://localhost:3000',
   headers: {
     'Content-Type': 'application/json'
   }
