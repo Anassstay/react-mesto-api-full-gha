@@ -124,12 +124,15 @@ const login = async (req, res, next) => {
     if (!user || !bcrypt.compareSync(password, user.password)) {
       throw new UnauthorizedError('Неправильный пароль или почта');
     }
+    console.log(user);
+    console.log(JWT_SECRET);
     // создать токен
     const token = jwt.sign(
       { _id: user._id },
       NODE_ENV === 'production' ? JWT_SECRET_PROD : JWT_SECRET,
       { expiresIn: '7d' }
     );
+    console.log(token);
     res.cookie('jwt', token, {
       // такая кука будет храниться 7 дней
       maxAge: 3600000 * 24 * 7,
