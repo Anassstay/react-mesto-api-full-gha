@@ -149,7 +149,12 @@ const login = async (req, res, next) => {
 
 const logout = async (req, res, next) => {
   try {
-    res.clearCookie('jwt', { domain: 'api.a.stay.nomoredomains.rocks', path: '/' }).send({ message: 'Вы вышли' });
+    res.clearCookie('jwt', {
+      domain: 'api.a.stay.nomoredomains.rocks',
+      path: '/',
+      sameSite: 'none',
+      secure: true,
+    }).send({ message: 'Вы вышли' });
   } catch (err) { next(err); }
 };
 
