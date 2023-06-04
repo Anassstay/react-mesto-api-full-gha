@@ -15,11 +15,11 @@ class Auth {
   register(email, password) {
     console.log(email, password)
     return fetch(`${this._baseUrl}/signup`, {
-      method: "POST",
-      credentials: "include",
+      method: 'POST',
+      credentials: 'include',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ email, password }),
     })
@@ -29,10 +29,10 @@ class Auth {
   // вход
   authorize(email, password) {
     return fetch(`${this._baseUrl}/signin`, {
-      method: "POST",
-      credentials: "include",
+      method: 'POST',
+      credentials: 'include',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ email, password }),
     })
@@ -42,11 +42,11 @@ class Auth {
   // проверяем токен
   checkToken() {
     return fetch(`${this._baseUrl}/users/me`, {
-      method: "GET",
-      credentials: "include",
+      method: 'GET',
+      credentials: 'include',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
     })
     .then((res) => this._checkError(res));
@@ -55,17 +55,17 @@ class Auth {
   // удалить куки
   logout() {
     return fetch(`${this._baseUrl}/signout`, {
-      method: "GET",
-      credentials: "include",
+      method: 'GET',
+      credentials: 'include',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
     })
     .then((res) => this._checkError(res));
   }
 }
 
-const auth = new Auth("https://api.a.stay.nomoredomains.rocks");
+const auth = new Auth('https://api.a.stay.nomoredomains.rocks');
 // const auth = new Auth('http://localhost:3000');
 export default auth;

@@ -105,7 +105,7 @@ class Api {
     return fetch(`${this._baseUrl}/cards/${_id}/likes`, {
       method: 'PUT',
       headers: this._headers,
-      credentials: "include"
+      credentials: 'include',
     })
     .then((res) => {
       return this._getResponseData(res)
@@ -116,7 +116,7 @@ class Api {
     return fetch(`${this._baseUrl}/cards/${_id}/likes`, {
       method: 'DELETE',
       headers: this._headers,
-      credentials: "include"
+      credentials: 'include',
     })
     .then((res) => {
       return this._getResponseData(res)
