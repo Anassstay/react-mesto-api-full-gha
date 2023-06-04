@@ -141,9 +141,15 @@ const login = async (req, res, next) => {
       // защита от автоматической отправки кук
       // указать браузеру, чтобы тот посылал куки, только если запрос сделан с того же домена
       sameSite: 'none',
-      secure: true,
+      secure: false,
     });
     res.send({ message: 'Успешный вход' });
+  } catch (err) { next(err); }
+};
+
+const logout = async (req, res, next) => {
+  try {
+    res.clearCookie('jwt').send({ message: 'Вы вышли' });
   } catch (err) { next(err); }
 };
 
@@ -154,5 +160,6 @@ module.exports = {
   createUser,
   updateUserInfo,
   updateUserAvatar,
-  login
+  login,
+  logout,
 };

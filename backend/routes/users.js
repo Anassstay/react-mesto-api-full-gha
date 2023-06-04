@@ -11,7 +11,8 @@ const {
   updateUserInfo,
   updateUserAvatar,
   createUser,
-  login
+  login,
+  logout
 } = require('../controllers/users');
 
 const {
@@ -25,6 +26,8 @@ const {
 router.post('/signin', loginUserValidator, login);
 
 router.post('/signup', createUserValidator, createUser);
+
+router.get('/signout', logout);
 
 router.get('/users', auth, getUsers);
 

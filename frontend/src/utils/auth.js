@@ -53,6 +53,19 @@ class Auth {
   }
 }
 
+// удалить куки
+  logout() {
+    return fetch(`${this._baseUrl}/sighout`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+    .then((res) => this._checkError(res));
+  }
+
 const auth = new Auth("https://api.a.stay.nomoredomains.rocks");
 // const auth = new Auth('http://localhost:3000');
 export default auth;

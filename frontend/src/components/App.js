@@ -167,7 +167,7 @@ function App() {
   // удалить токен
   const handleSignOut = () => {
     setLoggedIn(false);// не вошли
-    localStorage.removeItem('jwt');
+    api.logout().then().catch(error => console.log(error));
     setUserEmail("");// очистить почту
     navigate('/sign-in', { replace: true });// перебросить на вход
   };
