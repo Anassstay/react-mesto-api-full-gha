@@ -9,6 +9,7 @@ const { CREATED } = require('../utils/errCode');
 const ConflictError = require('../utils/conflictError');
 const NotFoundError = require('../utils/notFoundError');
 const BadRequestError = require('../utils/badRequestError');
+const UnauthorizedError = require('../utils/unauthorizedError');
 
 const { JWT_SECRET } = require('../utils/config');
 
@@ -113,28 +114,30 @@ const updateUserAvatar = (req, res, next) => {
   updateUser(req, res, dataUpdate, next);
 };
 
-const login = (req, res, next) => {
-  const { email, password } = req.body;
-  return User.findUserByCredentials(email, password)
-    .then((user) => {
-      // создать токен
-      const token = jwt.sign(
-        { _id: user._id },
-        JWT_SECRET,
-        { expiresIn: '7d' },
-      );
-      res.cookie('jwt', token, {
-        // такая кука будет храниться 7 дней
-        maxAge: 3600000 * 24 * 7,
-        httpOnly: true,
-        // защита от автоматической отправки кук
-        // указать браузеру, чтобы тот посылал куки, только если запрос сделан с того же домена
-        sameSite: 'none',
-        secure: false,
-      });
-      res.send({ message: 'Успешный вход' });
-    })
-    .catch(next);
+const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email }).select('+password');
+    if (!user || !bcrypt.compareSync(password, user.password)) {
+      throw new UnauthorizedError('Неправильный пароль или почта');
+    }
+    // создать токен
+    const token = jwt.sign(
+      { _id: user._id },
+      JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+    res.cookie('jwt', token, {
+      // такая кука будет храниться 7 дней
+      maxAge: 3600000 * 24 * 7,
+      httpOnly: true,
+      // защита от автоматической отправки кук
+      // указать браузеру, чтобы тот посылал куки, только если запрос сделан с того же домена
+      // sameSite: 'none',
+      // secure: false,
+    });
+    res.send({ message: 'Успешный вход' });
+  } catch (err) { next(err); }
 };
 
 module.exports = {

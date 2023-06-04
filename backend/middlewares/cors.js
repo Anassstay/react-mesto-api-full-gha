@@ -1,8 +1,6 @@
 // Массив доменов, с которых разрешены кросс-доменные запросы
 const allowedCors = [
-  'http://a.stay.nomoredomains.monster',
   'https://a.stay.nomoredomains.monster',
-  'localhost:3000'
 ];
 
 module.exports = (req, res, next) => {

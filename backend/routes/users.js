@@ -1,5 +1,7 @@
 // создать express router
-const userRouter = require('express').Router();
+const router = require('express').Router();
+
+const auth = require('../middlewares/auth');
 
 // импорт списков
 const {
@@ -7,24 +9,32 @@ const {
   getUserById,
   getUserInfo,
   updateUserInfo,
-  updateUserAvatar
+  updateUserAvatar,
+  createUser,
+  login
 } = require('../controllers/users');
 
 const {
   idUserValidator,
   dataUserValidator,
   avatarUserValidator,
+  createUserValidator,
+  loginUserValidator
 } = require('./validators/userValidator');
 
-userRouter.get('/', getUsers);
+router.post('/signin', loginUserValidator, login);
 
-userRouter.get('/me', getUserInfo);
+router.post('/signup', createUserValidator, createUser);
 
-userRouter.patch('/me', dataUserValidator, updateUserInfo);
+router.get('/users', auth, getUsers);
 
-userRouter.get('/:userId', idUserValidator, getUserById);
+router.get('/users/me', auth, getUserInfo);
 
-userRouter.patch('/me/avatar', avatarUserValidator, updateUserAvatar);
+router.patch('/users/me', auth, dataUserValidator, updateUserInfo);
+
+router.get('/users/:userId', auth, idUserValidator, getUserById);
+
+router.patch('/users/me/avatar', auth, avatarUserValidator, updateUserAvatar);
 
 // экспорт express router
-module.exports = userRouter;
+module.exports = router;

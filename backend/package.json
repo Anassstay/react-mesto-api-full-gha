@@ -2,7 +2,7 @@
   "name": "express-mesto-gha",
   "version": "0.1.0",
   "scripts": {
-    "lint": "npx eslint .",
+    "lint": "npx eslint . --fix",
     "start": "node app.js",
     "dev": "nodemon app.js"
   },

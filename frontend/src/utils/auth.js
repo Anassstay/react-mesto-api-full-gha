@@ -13,8 +13,10 @@ class Auth {
 
   // регистрация
   register(email, password) {
+    console.log(email, password)
     return fetch(`${this._baseUrl}/signup`, {
       method: "POST",
+      credentials: "include",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -28,6 +30,7 @@ class Auth {
   authorize(email, password) {
     return fetch(`${this._baseUrl}/signin`, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -37,9 +40,10 @@ class Auth {
   }
 
   // проверяем токен
-  checkToken(jwt) {
+  checkToken() {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "GET",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",

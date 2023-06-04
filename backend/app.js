@@ -39,7 +39,7 @@ const limiter = rateLimit({
 app.use(requestLogger); // логгер запросов
 app.use(limiter); // безопасность
 
-app.use('/', indexRoutes);
+app.use(indexRoutes);
 
 app.use(errorLogger); // логгер ошибок
 app.use(validationErrors()); // обработчик ошибок celebrate

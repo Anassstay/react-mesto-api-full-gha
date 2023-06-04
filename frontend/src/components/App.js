@@ -37,12 +37,28 @@ function App() {
     // хук 
   const navigate = useNavigate();
 
+
+  // проверить токен
+  const checkCookie = () => {
+    auth.checkToken()
+      .then((res) => {
+        console.log(res);
+        if (res) {
+          setLoggedIn(true);// войти
+          setUserEmail(res.email);// получить почту
+          navigate('/', { replace: true });// перебросить в профиль
+        }
+      })
+      .catch((err) => console.log(err));
+};
+
     // получить массив карточек и инфу юзера
   useEffect(() => {
+    checkCookie();
     loggedIn &&
     Promise.all([api.getInitialData(), api.getUserInfo()])
     .then(([initialData, userData]) => {
-      console.log(userData);
+      console.log(initialData, 'asd');
       setCurrentUser(userData);
       setCards(initialData);
     })
@@ -74,7 +90,7 @@ function App() {
   };
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i === currentUser._id);
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
     api.changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
         setCards((state) =>
@@ -139,7 +155,6 @@ function App() {
     auth.authorize(email, password)
     .then((res) => {
       setUserEmail(email);// передать почту
-      localStorage.setItem('jwt', res.token);
       setLoggedIn(true);// войдено
       navigate('/', { replace: true });// перебросить в профиль
     })
@@ -149,22 +164,6 @@ function App() {
       console.log(err);
     });
   }
-
- // проверить токен
-  useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
-    if (jwt) {
-      auth.checkToken(jwt)
-        .then((res) => {
-          if (res) {
-            setLoggedIn(true);// войти
-            setUserEmail(res.data.email);// получить почту
-            navigate('/', { replace: true });// перебросить в профиль
-          }
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [navigate]);
 
   // удалить токен
   const handleSignOut = () => {
@@ -202,7 +201,7 @@ function App() {
           element={
             <>
             <ProtectedRouteElement
-              loggedIn={setLoggedIn}
+              loggedIn={loggedIn}
               component={Main}
               cards={cards}
               onCardClick={handleCardClick}

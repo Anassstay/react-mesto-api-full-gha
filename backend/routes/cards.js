@@ -1,5 +1,7 @@
 // создать express router
-const cardRouter = require('express').Router();
+const router = require('express').Router();
+
+const auth = require('../middlewares/auth');
 
 // импорт списков
 const {
@@ -15,15 +17,15 @@ const {
   cardIdValidator,
 } = require('./validators/cardValidator');
 
-cardRouter.get('/', getCards);
+router.get('/cards', auth, getCards);
 
-cardRouter.post('/', cardDataValidator, createCard);
+router.post('/cards', auth, cardDataValidator, createCard);
 
-cardRouter.delete('/:cardId', cardIdValidator, deleteCard);
+router.delete('/cards/:cardId', auth, cardIdValidator, deleteCard);
 
-cardRouter.put('/:cardId/likes', cardIdValidator, likeCard);
+router.put('/cards/:cardId/likes', auth, cardIdValidator, likeCard);
 
-cardRouter.delete('/:cardId/likes', cardIdValidator, dislikeCard);
+router.delete('/cards/:cardId/likes', auth, cardIdValidator, dislikeCard);
 
 // экспорт express router
-module.exports = cardRouter;
+module.exports = router;

@@ -12,7 +12,7 @@ const ForbiddenError = require('../utils/forbiddenError');
 const getCards = (req, res, next) => {
   Card.find({})
     .populate(['owner', 'likes'])
-    .then((cards) => res.send({ cards }))
+    .then((cards) => res.send(cards))
     .catch(next);
 };
 
@@ -22,7 +22,7 @@ const createCard = (req, res, next) => {
   const owner = req.user._id;
   Card.create({ name, link, owner })
     .then((card) => card.populate('owner'))
-    .then((card) => res.status(CREATED).send({ card }))
+    .then((card) => res.status(CREATED).send(card))
     .catch((err) => {
       if (err instanceof ValidationError) {
         const errMessage = Object.values(err.errors)
@@ -70,7 +70,7 @@ const likeCard = (req, res, next) => {
   )
     .orFail()
     .populate(['owner', 'likes'])
-    .then((card) => res.send({ card }))
+    .then((card) => res.send(card))
     .catch((err) => {
       if (err instanceof DocumentNotFoundError) {
         next(new NotFoundError(`Объект с указанным id не найден: ${req.params.cardId}`));
@@ -92,7 +92,7 @@ const dislikeCard = (req, res, next) => {
   )
     .orFail()
     .populate(['owner', 'likes'])
-    .then((card) => res.send({ card }))
+    .then((card) => res.send(card))
     .catch((err) => {
       if (err instanceof DocumentNotFoundError) {
         next(new NotFoundError(`Объект с указанным id не найден: ${req.params.cardId}`));
