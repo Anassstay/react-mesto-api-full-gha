@@ -140,7 +140,7 @@ const login = async (req, res, next) => {
       httpOnly: true,
       // защита от автоматической отправки кук
       // указать браузеру, чтобы тот посылал куки, только если запрос сделан с того же домена
-      // sameSite: 'none',
+      sameSite: 'none',
       // secure: false,
     });
     res.send({ message: 'Успешный вход' });
