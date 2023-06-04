@@ -42,7 +42,6 @@ function App() {
   const checkCookie = () => {
     auth.checkToken()
       .then((res) => {
-        console.log(res);
         if (res) {
           setLoggedIn(true);// войти
           setUserEmail(res.email);// получить почту
