@@ -51,9 +51,8 @@ class Auth {
     })
     .then((res) => this._checkError(res));
   }
-}
 
-// удалить куки
+  // удалить куки
   logout() {
     return fetch(`${this._baseUrl}/sighout`, {
       method: "GET",
@@ -65,6 +64,9 @@ class Auth {
     })
     .then((res) => this._checkError(res));
   }
+}
+
+
 
 const auth = new Auth("https://api.a.stay.nomoredomains.rocks");
 // const auth = new Auth('http://localhost:3000');
