@@ -54,7 +54,7 @@ class Auth {
 
   // удалить куки
   logout() {
-    return fetch(`${this._baseUrl}/sighout`, {
+    return fetch(`${this._baseUrl}/signout`, {
       method: "GET",
       credentials: "include",
       headers: {
