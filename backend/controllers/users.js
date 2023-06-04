@@ -135,7 +135,8 @@ const login = async (req, res, next) => {
     );
     console.log(token);
     res.cookie('jwt', token, {
-      domain: 'a.stay.nomoredomains.monster',
+      domain: 'api.a.stay.nomoredomains.rocks',
+      path: '/',
       // такая кука будет храниться 7 дней
       maxAge: 3600000 * 24 * 7,
       httpOnly: true,

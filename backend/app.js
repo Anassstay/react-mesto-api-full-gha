@@ -12,7 +12,7 @@ const helmet = require('helmet'); // Заголовки безопасности
 const rateLimit = require('express-rate-limit'); // Защита от автоматических запросов, ограничивает кол-во запросов с одного IP-адреса в ед. времени
 const { requestLogger, errorLogger } = require('./middlewares/log');
 const cors = require('./middlewares/cors');
-const corsModule = require('cors')
+// const corsModule = require('cors')
 
 // Подключить мидлвары
 const errors = require('./middlewares/errors');
@@ -28,12 +28,12 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useNewUrlParser: true
 });
 
-app.use(corsModule({
-  origin: true,
-  credentials: true
-}));
+// app.use(corsModule({
+//   origin: true,
+//   credentials: true
+// }));
 
-// app.use(cors);
+app.use(cors);
 app.use(express.json());
 app.use(cookieParser()); // подключаем парсер кук как мидлвэр
 app.use(helmet()); // безопасность
