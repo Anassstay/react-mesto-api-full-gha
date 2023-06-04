@@ -11,7 +11,10 @@ const NotFoundError = require('../utils/notFoundError');
 const BadRequestError = require('../utils/badRequestError');
 const UnauthorizedError = require('../utils/unauthorizedError');
 
-const { JWT_SECRET } = require('../utils/config');
+const JWT_SECRET = require('../utils/config');
+
+const JWT_SECRET_PROD = process.env.REACT_APP_JWT_SECRET;
+const { NODE_ENV } = process.env;
 
 // всех юзеров
 const getUsers = (req, res, next) => {
@@ -124,7 +127,7 @@ const login = async (req, res, next) => {
     // создать токен
     const token = jwt.sign(
       { _id: user._id },
-      JWT_SECRET,
+      NODE_ENV === 'production' ? JWT_SECRET_PROD : JWT_SECRET,
       { expiresIn: '7d' }
     );
     res.cookie('jwt', token, {
