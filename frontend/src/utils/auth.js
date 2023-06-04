@@ -42,7 +42,7 @@ class Auth {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${jwt}`,
+        Accept: "application/json",
       },
     })
     .then((res) => this._checkError(res));
