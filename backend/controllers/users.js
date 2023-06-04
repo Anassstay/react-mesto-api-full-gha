@@ -141,7 +141,7 @@ const login = async (req, res, next) => {
       // защита от автоматической отправки кук
       // указать браузеру, чтобы тот посылал куки, только если запрос сделан с того же домена
       sameSite: 'none',
-      secure: false,
+      secure: true,
     });
     res.send({ message: 'Успешный вход' });
   } catch (err) { next(err); }
