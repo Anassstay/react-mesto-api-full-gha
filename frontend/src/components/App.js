@@ -42,7 +42,7 @@ function App() {
   const checkCookie = () => {
     auth.checkToken()
       .then((res) => {
-        if (res) {
+        if (res && typeof res === 'object') {
           setLoggedIn(true);// войти
           setUserEmail(res.email);// получить почту
           navigate('/', { replace: true });// перебросить в профиль
@@ -165,8 +165,8 @@ function App() {
 
   // удалить токен
   const handleSignOut = () => {
-    setLoggedIn(false);// не вошли
     auth.logout().then().catch(error => console.log(error));
+    setLoggedIn(false);// не вошли
     setUserEmail("");// очистить почту
     navigate('/sign-in', { replace: true });// перебросить на вход
   };
