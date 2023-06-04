@@ -135,13 +135,14 @@ const login = async (req, res, next) => {
     );
     console.log(token);
     res.cookie('jwt', token, {
+      domain: 'a.stay.nomoredomains.monster',
       // такая кука будет храниться 7 дней
       maxAge: 3600000 * 24 * 7,
       httpOnly: true,
       // защита от автоматической отправки кук
       // указать браузеру, чтобы тот посылал куки, только если запрос сделан с того же домена
       sameSite: 'none',
-      // secure: false,
+      secure: false,
     });
     res.send({ message: 'Успешный вход' });
   } catch (err) { next(err); }
