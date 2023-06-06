@@ -49,7 +49,7 @@ const Register = ({ loggedIn, onRegister }) => {
           autoComplete="on"
         />
         <button className="auth__submit-button" type="submit">Зарегистрироваться</button>
-        <Link to="/sing-in" className="auth__login-button">Уже зарегистрированы? Войти</Link>
+        <Link to="/sign-in" className="auth__login-button">Уже зарегистрированы? Войти</Link>
       </form>
     </section>
   );
